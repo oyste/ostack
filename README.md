@@ -9,7 +9,7 @@ git clone https://github.com/oyste/ostack.git ~/ostack
 ~/ostack/install.sh
 ```
 
-`install.sh` links every folder in `skills/` into `~/.claude/skills` and `~/.codex/skills`, and every file in `agents/` into `~/.claude/agents`. It never touches folders it didn't create.
+`install.sh` links every folder in `skills/` into `~/.claude/skills` and `~/.codex/skills`, and every file in `agents/` into `~/.claude/agents`. It never touches folders it didn't create. Skills listed in `claude-only.txt` are left out of Codex.
 
 ## Use
 

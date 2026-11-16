@@ -1,0 +1,21 @@
+# Skills linked into Claude Code only. One skill folder name per line.
+# pstack skills written for Cursor that need the Claude Code adapter (skills/poteto-help/docs/harness/claude-code.md).
+architect
+arena
+automate-me
+create-formal-verification-skill
+create-verification-skill
+figure-it-out
+how
+interrogate
+maintain-formal-verification-skill
+maintain-verification-skill
+no-comments
+poteto-help
+poteto-mode
+recall
+reflect
+setup-pstack
+show-me-your-work
+swarm
+teach
