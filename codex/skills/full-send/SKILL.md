@@ -87,7 +87,8 @@ Full confidence means all of these are true on the latest commit:
 - Required checks are green.
 - Review bots have finished, and each finding is fixed or dismissed with a
   written reason.
-- No human review still requests changes.
+- A human has approved the PR, and no human review still requests changes.
+  Wait for the approval; never approve your own PR.
 - The branch is up to date with the default branch, and GitHub reports it as
   mergeable.
 
