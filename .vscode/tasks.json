@@ -1,0 +1,11 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "ostack: install skills",
+      "type": "shell",
+      "command": "./install.sh",
+      "problemMatcher": []
+    }
+  ]
+}
