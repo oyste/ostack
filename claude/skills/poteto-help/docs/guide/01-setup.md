@@ -12,7 +12,7 @@ In a Cursor chat, run:
 
 Cursor confirms the plugin is installed.
 
-In Claude Code, run `/plugin marketplace add cursor/plugins`, then `/plugin install pstack@cursor-plugins`. Claude Code prefixes plugin commands, so each command in this guide takes a `pstack:` prefix there, such as `/pstack:setup-ostack`, which writes its model rule to `~/.claude/rules/pstack-models.md`. The [Claude Code adapter](../harness/claude-code.md) covers the other differences.
+In Claude Code, run `/plugin marketplace add cursor/plugins`, then `/plugin install pstack@cursor-plugins`. Claude Code prefixes plugin commands, so each command in this guide takes a `pstack:` prefix there, such as `/pstack:setup-ostack`, which writes its model rule to `~/.claude/rules/ostack-models.md`. The [Claude Code adapter](../harness/claude-code.md) covers the other differences.
 
 ## Pick your models
 
@@ -22,7 +22,7 @@ Run:
 /setup-ostack
 ```
 
-[`/setup-ostack`](../../../setup-ostack/SKILL.md) detects the models you have access to, asks for a reasoning budget, shows you each role (code delegates, judgment, the review panels), and asks what you want. Answer the questions. It writes `~/.cursor/rules/pstack-models.mdc`, a small rule every pstack skill reads.
+[`/setup-ostack`](../../../setup-ostack/SKILL.md) detects the models you have access to, asks for a reasoning budget, shows you each role (code delegates, judgment, the review panels), and asks what you want. Answer the questions. It writes `~/.cursor/rules/ostack-models.mdc`, a small rule every pstack skill reads.
 
 The defaults are the same as the `large` budget. Most roles run at `xhigh` reasoning. The hardest changes run at `max`, and the review panels and swarm workers run at `high`. `unlimited` raises each role one level, up to `max`. Gemini tops out at `high`, so it stays there. `medium` lowers each role one level and `small` lowers it two, and both spend fewer tokens.
 
@@ -49,18 +49,18 @@ pstack spends extra tokens on subagents and review panels. That's the price of t
 - Rerun `/setup-ostack` and pick a smaller reasoning budget or cheaper models. A strong model in the main chat with cheaper, faster models in the code roles is a good split.
 - Set a role to `auto` or `inherit-parent` so it runs on the chat's own model.
 - Shorten a panel list. Each entry runs one subagent.
-- Save `/oyste-mode` for work that needs rigor. A small, obvious edit doesn't.
+- Save `/poteto-mode` for work that needs rigor. A small, obvious edit doesn't.
 
 ## Run your first task
 
 Pick something real but small, and describe it the way you'd describe it to a colleague:
 
 ```text
-/oyste-mode add a --json flag to this command. text output stays byte-identical. verify both.
+/poteto-mode add a --json flag to this command. text output stays byte-identical. verify both.
 ```
 
-Watch the todo list. Its first items are the matched playbook's steps copied in, the Feature playbook for this prompt. If `/oyste-mode` skips a step, the step stays in the list with `skip: <reason>`, so you can see what it chose not to do.
+Watch the todo list. Its first items are the matched playbook's steps copied in, the Feature playbook for this prompt. If `/poteto-mode` skips a step, the step stays in the list with `skip: <reason>`, so you can see what it chose not to do.
 
-From here you can type normal follow-ups. To keep `/oyste-mode` on for the whole chat, pick it from the `/` menu with Option+Enter (Mac) or Alt+Enter (Windows) instead of Enter. That makes it a [Custom Mode](https://cursor.com/docs/skills#using-a-skill-as-a-custom-mode), which stays in context on every turn until you exit it. Custom Modes are available in the Agents Window and the CLI. Plain Enter attaches the skill to one message, and it fades as the chat moves on.
+From here you can type normal follow-ups. To keep `/poteto-mode` on for the whole chat, pick it from the `/` menu with Option+Enter (Mac) or Alt+Enter (Windows) instead of Enter. That makes it a [Custom Mode](https://cursor.com/docs/skills#using-a-skill-as-a-custom-mode), which stays in context on every turn until you exit it. Custom Modes are available in the Agents Window and the CLI. Plain Enter attaches the skill to one message, and it fades as the chat moves on.
 
-Next: [Route work through `/oyste-mode`](./02-oyste-mode.md).
+Next: [Route work through `/poteto-mode`](./02-poteto-mode.md).

@@ -1,14 +1,14 @@
 ---
-name: oyste-mode
-description: oyste's agent style, forked from poteto-mode in pstack, for concise, detailed responses, deliberate subagents, unslopped prose, simple code, and verified work, ending in the tstack PR pipeline. Use for /oyste-mode or requests to work in this style.
+name: poteto-mode
+description: poteto's agent style for concise, detailed responses, deliberate subagents, unslopped prose, simple code, and verified work, ending in the tstack PR pipeline. Use for poteto, /poteto-mode, or requests to work in this style.
 disable-model-invocation: true
 icon: crown
 color: yellow
 ---
 
-# Oyste mode
+# Poteto mode
 
-In Claude Code, read [the Claude Code adapter](../poteto-help/docs/harness/claude-code.md) once per session before you follow this skill. It maps the Cursor names in pstack skills to Claude Code.
+In Claude Code, read [the Claude Code adapter](../poteto-help/docs/harness/claude-code.md) once per session before you follow this skill. It maps the Cursor names in these skills to Claude Code.
 
 Bundled skills live at `../<name>/SKILL.md` from this file, so put this file's absolute path in every `poteto-agent` prompt.
 
@@ -25,11 +25,11 @@ Remaining triggers:
 - Parallel fan-out → the **swarm** skill for coverage matrices, races, gauntlets, and exploration partitions. Use **arena** for design or code bakeoffs with base selection and grafting.
 - Contested design → the **council** skill (review by three models from different providers) before shipping.
 - Nontrivial multi-step → write the throughput checkpoint (Feature step 3).
-- Any prose surface, your reply to the user included → the **unslop** skill. Write the reply per **Writing the reply**. Agent-facing prose also follows the **create-skill** skill (Cursor's built-in for authoring SKILL.md files).
+- Any prose surface, your reply to the user included → the **unslop** skill. Write the reply per **Writing the reply**. Agent-facing prose also follows the **skill-creator** skill when you write or edit a SKILL.md file.
 - Docs, RFCs, readmes, PR descriptions, or commit messages → the **technical-writing** skill (`/technical-writing`).
 - Before commit → Claude Code's built-in `/simplify` over the diff.
 - Before review → the **no-comments** skill (`/no-comments`).
-- Shipping UI / IDE / CLI → the matching control skill. `cursor-team-kit` publishes `control-cli` (CLIs and TUIs) and `control-ui` (browser / Electron / web UIs). For bug fixes, reproduce first on the same surface yourself. Hand to the user only under the narrow Bug fix step 1 exception.
+- Shipping UI / IDE / CLI → the control skill: the project's own verification skill (`verify-*`), which drives the real app the way a user does. If the project has none, offer `/create-verification-skill` once and say which checks stay unverified meanwhile. For bug fixes, reproduce first on the same surface yourself. Hand to the user only under the narrow Bug fix step 1 exception.
 - Running a benchmark, measuring perf yourself, or reporting a speedup or regression you measured → the **benchmark-checklist** skill before you report or act on the number.
 - Any PR-status request ("babysit this", "get it green", "address the review comments", "check on PR X") → the **babysit-pr** skill. Never triggered by merely opening a PR.
 - Asked to land, ship, or merge → the **full-send** skill. It merges only a PR that a human has approved and whose required checks pass, through branch protection, never with `--admin`.
@@ -92,7 +92,7 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 
 ## Subagents
 
-**Use `subagent_type: "poteto-agent"` for any subagent you spawn inside a playbook step** (code-writing delegates, ad-hoc helpers). The chat that receives `/oyste-mode` runs the playbook. Never spawn a `poteto-agent` to run the playbook itself. Routed workflow skills (`swarm`, `council`) set their own `subagent_type` for diverse-model review. Respect what the skill prescribes, don't override to `poteto-agent`.
+**Use `subagent_type: "poteto-agent"` for any subagent you spawn inside a playbook step** (code-writing delegates, ad-hoc helpers). The chat that receives `/poteto-mode` runs the playbook. Never spawn a `poteto-agent` to run the playbook itself. Routed workflow skills (`swarm`, `council`) set their own `subagent_type` for diverse-model review. Respect what the skill prescribes, don't override to `poteto-agent`.
 
 **Defaults for every `Task` call.** `run_in_background: true` (a steer or resume of a running agent too, because a foreground call holds your turn while other reports wait), agent mode (readonly strips MCP), file pointers not inlined context, explicit model per role (configurable via `/setup-ostack`. Defaults `claude-opus-5-5-xhigh` for code, prose, and judgment). Code delegates tier by difficulty. The hardest changes (cross-cutting design, gnarly concurrency, subtle algorithms) go to your `hardest tasks` model (default `claude-fable-5-2-max`), whether the task needs judgment on vague intent or is a precisely specified sequence of steps to execute to the letter. Trivial mechanical edits go to your `swarm workers` model (default `claude-opus-5-5-high-fast`). Review and design panels default to one runner each on `claude-fable-5-2-high`, `claude-opus-5-5-high-fast`, and `gemini-4-carbon-high`. Per-role lines in the `/setup-ostack` rule override these defaults and the model choices in the routed skills (`arena`, `swarm`, `architect`). A role with no line keeps its default, and a role line of `inherit-parent` or `auto` runs that role on the parent chat model (omit Task `model`). Each code playbook's configured model comes from its line (`feature, refactoring`, `bug-fix`, `perf-issue`, or `hillclimb`), and the hardest changes read `hardest tasks`. Prose and judgment read `judgment and prose`. If the rule has no `# defaults: 2` line, an older setup wrote it. Keep honoring its lines, and tell the user once per session to rerun `/setup-ostack`.
 

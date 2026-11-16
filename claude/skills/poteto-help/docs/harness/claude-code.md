@@ -34,7 +34,7 @@ pstack skills use Cursor names. In Claude Code, read this file once per session,
 | `claude-<family>-<version>-<effort>[-fast]`, such as `claude-opus-5-5-xhigh` | `model: "opus"` and `effort: "xhigh"`. `model` takes only `opus`, `sonnet`, `haiku`, `fable`. Drop `-fast`. |
 | A `gemini-*` or other non-Claude slug | Omit `model` so the agent runs on the session model, and say so. |
 | `auto` or `inherit-parent` | Omit `model`. |
-| The `pstack-models.mdc` rule, `~/.cursor/rules/pstack-models.mdc` | `~/.claude/rules/pstack-models.md`. Claude Code loads it into every new session, so its role lines are already in context. If they are not, read the file. If the file or the role's line is missing, use the skill's default slug. |
+| The `ostack-models.mdc` rule, `~/.cursor/rules/ostack-models.mdc` | `~/.claude/rules/ostack-models.md`. Claude Code loads it into every new session, so its role lines are already in context. If they are not, read the file. If the file or the role's line is missing, use the skill's default slug. |
 | A role value `<model> <effort>`, such as `opus high` | `model: "opus"` and `effort: "high"`. |
 
 ## setup-ostack
@@ -43,14 +43,14 @@ Claude Code loads every `.md` file in `~/.claude/rules/` into each new session, 
 
 - Detect. The detected models are the `model` values that the `Agent` tool schema lists, each with an effort from its `effort` values. Write a real model as `<model> <effort>`, such as `opus xhigh`. The effort is the last token, so the budget step works as written.
 - Defaults. Map each default slug with the rows above: `claude-opus-5-5-xhigh` is `opus xhigh`, `claude-opus-5-5-high-fast` is `opus high`, `claude-fable-5-2-max` is `fable max`, and `gemini-4-carbon-high` is `inherit-parent`.
-- Write. Write `~/.claude/rules/pstack-models.md` with no frontmatter, then the comment lines, the `# budget` line, and one line per role from step 5. Overwrite the whole file. Never put the role lines in `CLAUDE.md` or `AGENTS.md`.
+- Write. Write `~/.claude/rules/ostack-models.md` with no frontmatter, then the comment lines, the `# budget` line, and one line per role from step 5. Overwrite the whole file. Never put the role lines in `CLAUDE.md` or `AGENTS.md`.
 
 ## Paths
 
 | Cursor | Claude Code |
 | --- | --- |
 | `.cursor/skills/`, `~/.cursor/skills/` | `.claude/skills/`, `~/.claude/skills/` |
-| A search of `~/.cursor/plugins/` for `skills/oyste-mode/SKILL.md` | `~/.claude/skills/oyste-mode/SKILL.md` |
+| A search of `~/.cursor/plugins/` for `skills/poteto-mode/SKILL.md` | `~/.claude/skills/poteto-mode/SKILL.md` |
 | `.cursor/rules/*.mdc`, always-applied rules | `CLAUDE.md`, or `AGENTS.md` when no `CLAUDE.md` exists. Claude Code never reads `.mdc` files. The model rule is the exception. See Models. |
 | `https://github.com/cursor/plugins/blob/main/pstack/<path>` | `~/.claude/skills/<name>/...` for `skills/<name>/...`, and `~/.claude/skills/poteto-help/docs/<path>` for `docs/<path>` and `README.md`, when that file exists. Read the local copy and never fetch it. Give the user the URL when they need a link. |
 | Transcripts in `~/.cursor/projects/<slug>/agent-transcripts/` | `~/.claude/projects/<slug>/<session>.jsonl`. The slug is the workspace path with each `/` and `.` changed to `-`, so `/Users/you/proj` is `-Users-you-proj`. The newest `.jsonl` directly in that folder is the current session. Its `<session>/subagents/` folder holds subagent transcripts. Read only this workspace's folder. |

@@ -4,7 +4,7 @@ import process from "node:process";
 
 const RULE =
 	"Tests alone are not sufficient verification. A PR is verified only when its unit, live, and perf boxes are all checked.";
-const LANES = /Ten lanes on `[^`<>]+` at the PR head/;
+const LANES = /(\d+) lanes on `[^`<>]+` at the PR head/;
 const SUB_BLOCKS = [
 	"Depends on.",
 	"Files.",
@@ -17,12 +17,13 @@ const SUB_BLOCKS = [
 	"Merge.",
 ];
 const PROGRAM_H3 = ["Arm the program", "Spawn owners", "PR mechanics", "Verdict and merge", "Boot recipe"];
-const PROGRAM_MARKERS = ["git show origin/main:", "/loop 1h", "status message"];
+const PROGRAM_MARKERS = ["~/.claude/skills/", "/loop 1h", "status message"];
 const HOW_TO_READ_MARKERS = [
 	"One box is one unit of work",
 	"names the evidence",
 	"Check a box only when its evidence exists",
-	"playbooks/",
+	"orchestrate.md",
+	"full-send",
 	RULE,
 ];
 const PERF_ITEMS = ["Metric.", "Probe.", "Baseline.", "Rule."];
@@ -155,10 +156,16 @@ for (const pr of prSections) {
 
 	const live = block("Verify, live.");
 	if (live) {
-		if (!LANES.test(live.rest)) fail(live.n, `${pr.title}: Verify, live lacks "Ten lanes on \`<swarm workers model>\` at the PR head" with the model filled in`);
+		const declared = live.rest.match(LANES);
+		const wanted = declared ? Number(declared[1]) : 0;
+		if (!declared) fail(live.n, `${pr.title}: Verify, live lacks "<N> lanes on \`<swarm workers model>\` at the PR head" with N and the model filled in`);
+		else if (wanted < 2 || wanted > 10) fail(live.n, `${pr.title}: ${wanted} lanes declared, expected 2 to 10`);
 		const lanes = boxes(live.lines).map((b) => ({ ...b, m: b.text.match(/^Lane (\d+)\. /) }));
 		const numbers = lanes.filter((b) => b.m).map((b) => Number(b.m[1])).sort((a, b) => a - b);
-		if (numbers.join(",") !== "1,2,3,4,5,6,7,8,9,10") fail(live.n, `${pr.title}: lanes are [${numbers.join(",")}], expected 1 to 10`);
+		const expected = Array.from({ length: wanted }, (_, i) => i + 1).join(",");
+		if (declared && numbers.join(",") !== expected) fail(live.n, `${pr.title}: lanes are [${numbers.join(",")}], expected 1 to ${wanted}`);
+		const first = lanes.find((b) => b.m && b.m[1] === "1");
+		if (first && !first.text.includes("Regression lane against trunk")) fail(first.n, `${pr.title}: lane 1 is not the regression lane against trunk`);
 		for (const lane of lanes) {
 			if (!lane.m) fail(lane.n, `${pr.title}: live box is not a lane`);
 			else if (!/Save `[^`]+`/.test(lane.text)) fail(lane.n, `${pr.title}: lane ${lane.m[1]} names no screenshot`);
@@ -169,7 +176,9 @@ for (const pr of prSections) {
 	const perf = block("Verify, perf.");
 	if (perf) {
 		const items = boxes(perf.lines).map((b) => b.text.split(" ")[0]);
-		if (items.join("|") !== PERF_ITEMS.join("|")) fail(perf.n, `${pr.title}: perf boxes are [${items.join(", ")}], expected [${PERF_ITEMS.join(", ")}]`);
+		if (perf.rest.slice(RULE.length).trim().startsWith("None.")) {
+			if (items.length) fail(perf.n, `${pr.title}: Verify, perf says None but has boxes`);
+		} else if (items.join("|") !== PERF_ITEMS.join("|")) fail(perf.n, `${pr.title}: perf boxes are [${items.join(", ")}], expected [${PERF_ITEMS.join(", ")}]`);
 	}
 
 	const gate = block("Review gate.");
@@ -180,7 +189,7 @@ for (const pr of prSections) {
 		} else {
 			const text = gate.lines.map((l) => l.text).join("\n");
 			if (gateBoxes.length === 0) fail(gate.n, `${pr.title}: Review gate has no box`);
-			for (const word of ["screenshot", "video", "operator"]) {
+			for (const word of ["screenshot", "video", "approv"]) {
 				if (!text.includes(word)) fail(gate.n, `${pr.title}: Review gate lacks "${word}"`);
 			}
 		}

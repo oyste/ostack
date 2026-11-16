@@ -26,8 +26,8 @@ Type `/<skill>` to run a skill. Most pstack skills only run when typed.
 
 | Skill | What it does | Try |
 |---|---|---|
-| `oyste-mode` | Picks a playbook (feature, bug fix, refactor, perf, investigation…), runs the other skills as needed, and ends in the `full-send` PR pipeline | `/oyste-mode export duplicates rows on retry. repro first, then fix and verify.` |
-| `setup-ostack` | Picks which model and effort each role uses, and writes the choice to `~/.claude/rules/pstack-models.md` | `/setup-ostack` once per machine |
+| `poteto-mode` | Picks a playbook (feature, bug fix, refactor, perf, investigation…), runs the other skills as needed, and ends in the `full-send` PR pipeline | `/poteto-mode export duplicates rows on retry. repro first, then fix and verify.` |
+| `setup-ostack` | Picks which model and effort each role uses, and writes the choice to `~/.claude/rules/ostack-models.md` | `/setup-ostack` once per machine |
 | `poteto-help` | Answers "which skill fits?" and hands you a prompt to send | `/poteto-help which skill should I use to review this branch?` |
 | `create-verification-skill` | Writes a project skill that drives the real app the way a user does, so agents can prove changes work | `/create-verification-skill for the API server` |
 | `maintain-verification-skill` | Brings that verification skill back in line with the app | `/maintain-verification-skill` |
@@ -57,7 +57,7 @@ Type `/<skill>` to run a skill. Most pstack skills only run when typed.
 | `ponytail` | Smallest change that fully solves the task. Starts on any coding task | `/ponytail ultra` |
 | `ponytail-debt` | Lists every `shortcut:` comment as a debt ledger | `/ponytail-debt` |
 | `show-me-your-work` | Keeps a decision log for long or unattended runs | `/show-me-your-work` before you step away |
-| `typescript-best-practices` | TypeScript rules: unions, branded types, no `as` casts | Loads on `.ts` and `.tsx` files |
+| `typescript-best-practices` | TypeScript rules: unions, branded types, no `as` casts | Loads by itself when Claude works on `.ts` or `.tsx` files |
 
 ### Review and verify
 
@@ -90,7 +90,7 @@ Type `/<skill>` to run a skill. Most pstack skills only run when typed.
 
 ### Principles
 
-`oyste-mode` cites these when they shape a decision. Type one to apply it directly.
+`poteto-mode` cites these when they shape a decision. Type one to apply it directly.
 
 | Skill | Apply when |
 |---|---|
@@ -123,7 +123,7 @@ Type `/<skill>` to run a skill. Most pstack skills only run when typed.
 
 | Agent | What it does |
 |---|---|
-| `poteto-agent` | Delegate that `oyste-mode` spawns for code-writing and helper tasks |
+| `poteto-agent` | Delegate that `poteto-mode` spawns for code-writing and helper tasks |
 | `comment-sicko` | Read-only comment reviewer that `no-comments` spawns |
 
 ## Codex
