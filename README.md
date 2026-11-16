@@ -5,7 +5,7 @@ My personal agent skills for Claude Code and Codex.
 ## Install
 
 ```bash
-git clone git@github.com:<you>/ostack.git ~/ostack
+git clone https://github.com/oyste/ostack.git ~/ostack
 ~/ostack/install.sh
 ```
 
