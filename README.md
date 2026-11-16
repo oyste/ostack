@@ -159,3 +159,7 @@ ostack started as a copy of these projects and grew from there. Thank you to the
 - [pstack](https://github.com/cursor/plugins/tree/main/pstack) by poteto
 - [tstack](https://github.com/t3dotgg/tstack) by Theo Browne
 - [ponytail](https://github.com/dietrichgebert/ponytail) by Dietrich Gebert
+
+## License
+
+MIT, see `LICENSE`. Files copied from the projects above keep their own MIT licenses in `licenses/`.
